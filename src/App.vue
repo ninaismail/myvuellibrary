@@ -2,6 +2,7 @@
   <div id="nav">
     <router-link to="/">Home</router-link>
     <router-link to="/about">About</router-link>
+    <router-link to="/books">Books</router-link>
     <!-- <a href="/">Home (anchor tag)</a> -->
   </div>
   <router-view/>
