@@ -2,7 +2,7 @@
   <h1>These are my books</h1>
   <div class="card-container">
       <div class="card" v-for="book in books" :key="book.id">
-        <img :src="book.image" :alt="book.title">
+        <img :src="book.images.cover" :alt="book.title" responsive>
         <h2>{{ book.title }}</h2>
         <p>{{ book.brief }}</p>
         <p><strong>Author:</strong> {{ book.author }}</p>
@@ -44,7 +44,7 @@ padding: 10px;
 }
 
 .card img {
-max-width: 100%;
+max-width: 200px;
 height: auto;
 /* Additional image styles */
 }
