@@ -1,4 +1,4 @@
-# ninja-jobs
+# myvuelibrary
 
 ## Project setup
 ```
