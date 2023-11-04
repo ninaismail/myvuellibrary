@@ -9,23 +9,27 @@
     <div v-else>
       <p>Loading...</p>
     </div>
+    <AddComment/>
   </template>
   
   <script>
+import AddComment from './AddComment.vue';
+
   export default {
     props: ['id'],
     data() {
-      return {
-        book: null
-      }
+        return {
+            book: null
+        };
     },
     mounted() {
-      fetch(`https://myvuelibrary-9a059-default-rtdb.europe-west1.firebasedatabase.app/books/${this.id}.json`)
-        .then(res => res.json())
-        .then(data => this.book = data)
-        .catch(err => console.log(err.message))
-    }
-  }
+        fetch(`https://myvuelibrary-9a059-default-rtdb.europe-west1.firebasedatabase.app/books/${this.id}.json`)
+            .then(res => res.json())
+            .then(data => this.book = data)
+            .catch(err => console.log(err.message));
+    },
+    components: { AddComment }
+}
   </script>
   
   <style>

@@ -10,7 +10,7 @@
           <p><strong>Author:</strong> {{ book.author }}</p>
           <p><strong>Release Date:</strong> {{ book.dateOfRelease }}</p>
         </div>
-      </div>
+    </div>
     </template>
     
     <script>
