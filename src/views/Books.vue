@@ -11,24 +11,20 @@
           <p><strong>Release Date:</strong> {{ book.dateOfRelease }}</p>
         </div>
     </div>
-    </template>
+</template>
     
-    <script>
-    export default {
-      data() {
-      return {
-        books: [],
-      }
-      },
-      mounted() {
+<script setup>
+    import { ref, watchEffect } from 'vue';
+    const books = ref([]);
+    watchEffect( async () => {
       fetch('https://myvuelibrary-9a059-default-rtdb.europe-west1.firebasedatabase.app/books.json')
         .then(res => res.json())
-        .then(data => this.books = data)
+        .then(data => books.value = data)
         .catch(err => console.log(err.message))
-      }
-    }
-    </script>
-    <style scoped>
+    });
+</script>
+
+<style scoped>
   .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -50,6 +46,5 @@
   height: auto;
   /* Additional image styles */
   }
-  
-    </style>
+</style>
     

@@ -37,82 +37,84 @@
     </div>
   </template>
   
-  <script>
-  export default {
-    data() {
-      return {
-        comment: {
-          email: '',
-          content: '',
-          isRead: false,
-          rating: 'Good',
-          bookId: this.$route.params.id,
-        },
-        emailError: false,
-        emailValidationMessage: "Email invalid, needs to include an '@'"
-      };
-    },
-    methods: {
-    // addSkill($event) {
-    //   if($event.key === ',' && this.tempSkill) {
-    //     if (!this.skills.includes(this.tempSkill)) {
-    //       this.skills.push(this.tempSkill)
-    //     }
-    //     this.tempSkill = ''
-    //   }
-    // },
-    // deleteSkill(skill) {
-    //   this.skills = this.skills.filter(item => {
-    //     return skill !== item
-    //   })
-    // },
-    submitComment(e) {
-        e.preventDefault();
-        // email validation
-        this.emailError = this.comment.email.includes("@") ? '' : this.emailValidationMessage
-        
-        // Here, you can submit the comment to your database or take any action you need.
-        // The comment data is available in this.comment.
-        if (!this.emailError) {
-            // Create a new comment object with the data to be sent
-            const data = {
-            email: this.comment.email,
-            content: this.comment.content,
-            isRead: this.comment.isRead,
-            rating: this.comment.rating,
-            bookId: this.comment.bookId
-            };
+  <script setup>
+  import { ref } from 'vue';
+  import { useRoute } from 'vue-router';
 
-            // Make a POST request to the API
-            fetch('https://myvuelibrary-9a059-default-rtdb.europe-west1.firebasedatabase.app/comments.json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response from the API
-                console.log('Comment submitted:', data);
+  const route = useRoute();
 
-                // You can optionally reset the comment form or perform other actions here
-                this.comment = {
-                    email: '',
-                    content: '',
-                    isRead: false,
-                    rating: 'Good',
-                    bookId: ''
-                };
-            })
-            .catch(error => {
-                // Handle any errors that occur during the request
-                console.error('Error submitting comment:', error);
-            });
-        }
-      },
-    },
-  };
-  </script>
+  const comment = ref({
+    email: '',
+    content: '',
+    isRead: false,
+    rating: 'Good',
+    bookId: route.params.id
+  });
+  const emailError = ref(false);
+  const emailValidationMessage = ref("Email invalid, needs to include an '@'");
+
+  // addSkill($event) {
+  //   if($event.key === ',' && this.tempSkill) {
+  //     if (!this.skills.includes(this.tempSkill)) {
+  //       this.skills.push(this.tempSkill)
+  //     }
+  //     this.tempSkill = ''
+  //   }
+  // },
+  // deleteSkill(skill) {
+  //   this.skills = this.skills.filter(item => {
+  //     return skill !== item
+  //   })
+  // },
+  // sidenote : if you want to increment a variable for example you need to call onCompute() 
+  
+  function submitComment(e) {
+    e.preventDefault();
+    
+    // email validation
+    emailError.value = comment.value.email.includes("@") ? '' : emailValidationMessage.value
+
+    // Here, you can submit the comment to your database or take any action you need.
+    // The comment data is available in comment.value.
+    if (!emailError.value) {
+        // Create a new comment object with the data to be sent
+        const data = {
+          email: comment.value.email,
+          content: comment.value.content,
+          isRead: comment.value.isRead,
+          rating: comment.value.rating,
+          bookId: comment.value.bookId
+        };
+
+        // Make a POST request to the API
+        fetch('https://myvuelibrary-9a059-default-rtdb.europe-west1.firebasedatabase.app/comments.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from the API
+          console.log('Comment submitted:', data);
+
+          // You can optionally reset the comment form or perform other actions here
+          comment.value = {
+            email: '',
+            content: '',
+            isRead: false,
+            rating: 'Good',
+            bookId: ''
+          };
+        })
+        .catch(error => {
+          // Handle any errors that occur during the request
+          console.error('Error submitting comment:', error);
+        });
+    }
+  }
+</script>
+
 
   
